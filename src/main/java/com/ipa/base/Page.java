@@ -1,11 +1,14 @@
 package com.ipa.base;
 
+import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -26,27 +29,18 @@ public class Page {
 	public static Logger log = LogManager.getLogger();
 	public static ExcelReader excel = new ExcelReader(System.getProperty("user.dir") + "\\src\\test\\resources\\testdata\\testdata.xlsx");
 	public static String browser;
-	
-	
-	public Page() {
-		
-		if(driver==null) {
-			
-			
-			
-			
-		}
-		
-		
-		
-	}
-	
-	
-	
+	public static Date d = new Date();
+	public static TopMenu topMenu;
 	
 	
 	
 	public static void initConfiguration() {
+		
+		System.setProperty("current.date", d.toString().replace(":", "_").replace(" ", "_"));
+		
+		LoggerContext context = (LoggerContext) LogManager.getContext(false);
+		File file = new File(".\\src\\test\\resources\\properties\\log4j2.properties");
+		context.setConfigLocation(file.toURI());
 		
 		if(Constants.browser.equals("firefox")) {
 			
@@ -62,7 +56,7 @@ public class Page {
 			prefs.put("credentials_enable_service", false);
 			prefs.put("profile.password_manager_enabled", false);
 			ChromeOptions options = new ChromeOptions();
-			options.setBinary("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");
+			options.setBinary("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe");
 			options.setExperimentalOption("prefs", prefs);
 			options.addArguments("--disable-extensions");
 			options.addArguments("--disable-infobars");
@@ -80,6 +74,7 @@ public class Page {
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Constants.implicit_wait, TimeUnit.SECONDS);
 		driver.get(Constants.testsiteurl);
+		topMenu = new TopMenu();
 		
 		
 		

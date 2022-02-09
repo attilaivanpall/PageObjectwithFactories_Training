@@ -19,12 +19,13 @@ public class LoginPage extends Page{
 		
 	}
 	
-	public void doLogin(String username, String password) {
+	public TrustPage doLogin(String username, String password) {
 		
 		loginPage.loginFld.sendKeys(username);
 		loginPage.nextBtn.click();
 		loginPage.passwordFld.sendKeys(password);
 		loginPage.nextBtn.click();
 		
+		return new TrustPage();
 	}
 }
